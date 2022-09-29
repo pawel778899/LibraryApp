@@ -1,1 +1,1 @@
-Simple LibraryApp
+LibraryApp
