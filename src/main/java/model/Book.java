@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Book extends Publication {
     // Pola
     private String author;
@@ -39,10 +41,21 @@ public class Book extends Publication {
     public void setAuthor(String author) {
         this.author = author;
     }
+    @Override
+    public String toString() {
+        return super.toString() + ";" + author + ";"+ pages + ";" + isbn;
+    }
 
-    public void printInfo() {
-        String info = getTitle() + "; " + author + "; " + getYear() + "; "
-                + pages + "; " + getPublisher() + "; " + isbn;
-        System.out.println(info);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book book)) return false;
+        if (!super.equals(o)) return false;
+        return pages == book.pages && Objects.equals(author, book.author) && Objects.equals(isbn, book.isbn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), author, pages, isbn);
     }
 }
