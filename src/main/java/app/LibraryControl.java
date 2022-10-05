@@ -76,13 +76,13 @@ public class LibraryControl {
         try {
             Book book = dataReader.readAndCreateBook();
             library.addBook(book);
-        } catch(
-    InputMismatchException e) {
-        printer.printLine("Nie udało się utworzyć książki, niepoprawne dane");
-    } catch(ArrayIndexOutOfBoundsException e) {
+        } catch (
+                InputMismatchException e) {
+            printer.printLine("Nie udało się utworzyć książki, niepoprawne dane");
+        } catch (ArrayIndexOutOfBoundsException e) {
             printer.printLine("Osięgnito limi pojemności, nie można dodać kolejnej książki");
         }
-}
+    }
 
     private void printBooks() {
         Publication[] publications = library.getPublications();
@@ -93,10 +93,10 @@ public class LibraryControl {
         try {
             Magazine magazine = dataReader.readAndCreateMagazine();
             library.addMagazine(magazine);
-        } catch(
+        } catch (
                 InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć magazynu, niepoprawne dane");
-        } catch(ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             printer.printLine("Osięgnito limi pojemności, nie można dodać kolejnej magazynu");
         }
     }
@@ -111,4 +111,43 @@ public class LibraryControl {
         // zamykamy strumień wejścia
         dataReader.close();
     }
+
+    private enum Option {
+
+        EXIT(0, "wyjście z programu"),
+        ADD_BOOK(1, "dodanie nowej książki"),
+        ADD_MAGAZINE(2, "dodanie nowego magazynu"),
+        PRINT_BOOKS(3, "wyświetl dostępne książki"),
+        PRINT_MAGAZINES(4, "wyświetl dostępne magazyny");
+
+        private final int value;
+        private final String description;
+
+        Option(int value, String description) {
+            this.value = value;
+            this.description = description;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        @Override
+        public String toString() {
+            return value + " - " + description;
+        }
+
+        static Option createFromInt(int option) throws NoSuchOptionException {
+            try {
+                return Option.values()[option];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new NoSuchOptionException("Brak opcji o id " + option);
+            }
+        }
+    }
+
 }
